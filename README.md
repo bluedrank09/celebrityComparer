@@ -12,3 +12,6 @@
 
 ## Websites used
 1. Bootstrap
+
+## Setting API KEY in Environment   
+set "X-RapidAPI-Key=apiKey"
