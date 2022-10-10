@@ -29,7 +29,9 @@
         </div>
 
         <div class = 'container text-center'>
-            {{ inputs }}
+            {% for celeb in inputs %}
+                <td>{{ celeb }}</td>
+            {% endfor %}
 
         </div>
 

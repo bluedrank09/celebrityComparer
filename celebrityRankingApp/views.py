@@ -3,6 +3,7 @@ from celebrityRankingApp.forms import InputCelebrityNames
 import requests
 from time import sleep
 import os 
+from operator import itemgetter
 
 # Create your views here.
 
@@ -20,6 +21,7 @@ def getAndRankCelebrities(request):
     celebrityThreeInfoList = []
     celebrityFourInfoList = []
     celebrityFiveInfoList = []
+    allCelebrityList = []
 
     context = {}
     form = InputCelebrityNames(request.GET or None)
@@ -45,7 +47,8 @@ def getAndRankCelebrities(request):
             celebrityOneInfoList.append(celebrityOneDetailsDict.get('name'))           
             celebrityOneInfoList.append(celebrityOneDetailsDict.get('age'))           
             celebrityOneInfoList.append(celebrityOneDetailsDict.get('height'))           
-            celebrityOneInfoList.append(celebrityOneDetailsDict.get('net_worth'))           
+            celebrityOneInfoList.append(celebrityOneDetailsDict.get('net_worth'))     
+            allCelebrityList.append(celebrityOneInfoList)      
 
         if secondCelebrityTicked == 'on':
             celebrityTwoDetails = getCelebrityStats("Tom Hiddleston")[0]
@@ -53,6 +56,7 @@ def getAndRankCelebrities(request):
             celebrityTwoInfoList.append(celebrityTwoDetails.get('age'))           
             celebrityTwoInfoList.append(celebrityTwoDetails.get('height'))           
             celebrityTwoInfoList.append(celebrityTwoDetails.get('net_worth'))
+            allCelebrityList.append(celebrityTwoInfoList) 
 
         if thirdCelebrityTicked == 'on':
             celebrityThreeDetails = getCelebrityStats("Scarlett Johansson")[0]
@@ -60,6 +64,7 @@ def getAndRankCelebrities(request):
             celebrityThreeInfoList.append(celebrityThreeDetails.get('age'))           
             celebrityThreeInfoList.append(celebrityThreeDetails.get('height'))           
             celebrityThreeInfoList.append(celebrityThreeDetails.get('net_worth'))
+            allCelebrityList.append(celebrityThreeInfoList)
 
         if fourthCelebrityTicked == 'on':
             celebrityFourDetails = getCelebrityStats("Elizabeth Olsen")[0]
@@ -67,6 +72,7 @@ def getAndRankCelebrities(request):
             celebrityFourInfoList.append(celebrityFourDetails.get('age'))           
             celebrityFourInfoList.append(celebrityFourDetails.get('height'))           
             celebrityFourInfoList.append(celebrityFourDetails.get('net_worth'))
+            allCelebrityList.append(celebrityFourInfoList)
 
         if fifthCelebrityTicked == 'on':
             celebrityFiveDetails = getCelebrityStats("Chris Hemsworth")[0]
@@ -74,8 +80,11 @@ def getAndRankCelebrities(request):
             celebrityFiveInfoList.append(celebrityFiveDetails.get('age'))           
             celebrityFiveInfoList.append(celebrityFiveDetails.get('height'))           
             celebrityFiveInfoList.append(celebrityFiveDetails.get('net_worth'))
+            allCelebrityList.append(celebrityFiveInfoList)
 
-        context['inputs'] = f"{celebrityOneInfoList}, {celebrityTwoInfoList}, {celebrityThreeInfoList}, {celebrityFourInfoList}, {celebrityFiveInfoList}"  
+        sortedList = sorted(allCelebrityList, key=itemgetter(3), reverse=True)
+
+        context['inputs'] = f"{sortedList}"  
 
 
     return render(request, 'celebrity-ranking.html', context)
@@ -92,6 +101,7 @@ def getCelebrityStats(name):
         "X-RapidAPI-Host": "celebrityninjas.p.rapidapi.com"
     }
     response = requests.request("GET", url, headers=headers, params=querystring)
+    print(f"{response.text}")
     return(response.json())
 
 
