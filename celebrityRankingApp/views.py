@@ -101,7 +101,7 @@ def getCelebrityStats(name):
         "X-RapidAPI-Host": "celebrityninjas.p.rapidapi.com"
     }
     response = requests.request("GET", url, headers=headers, params=querystring)
-    print(f"{response.text}")
+    print(f"PRINTING : {response.text}")
     return(response.json())
 
 
