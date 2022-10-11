@@ -4,6 +4,7 @@ import requests
 from time import sleep
 import os 
 from operator import itemgetter
+from django.contrib import messages
 
 # Create your views here.
 
@@ -42,50 +43,53 @@ def getAndRankCelebrities(request):
         fifthCelebrityTicked = request.GET.get('fifth_celebrity')
         print(f"{fifthCelebrityTicked}")
 
-        if firstCelebrityTicked == 'on':
-            celebrityOneDetailsDict = getCelebrityStats("Benedict Cumberbatch")[0] 
-            celebrityOneInfoList.append(celebrityOneDetailsDict.get('name'))           
-            celebrityOneInfoList.append(celebrityOneDetailsDict.get('age'))           
-            celebrityOneInfoList.append(celebrityOneDetailsDict.get('height'))           
-            celebrityOneInfoList.append(celebrityOneDetailsDict.get('net_worth'))     
-            allCelebrityList.append(celebrityOneInfoList)      
+        # if firstCelebrityTicked == 'on':
+        #     celebrityOneDetails = getCelebrityStats("Benedict Cumberbatch")[0] 
+        #     celebrityOneInfoList.append(celebrityOneDetails.get('name'))           
+        #     celebrityOneInfoList.append(celebrityOneDetails.get('age'))           
+        #     celebrityOneInfoList.append(celebrityOneDetails.get('height'))           
+        #     celebrityOneInfoList.append(celebrityOneDetails.get('net_worth'))     
+        #     allCelebrityList.append(celebrityOneInfoList)      
 
-        if secondCelebrityTicked == 'on':
-            celebrityTwoDetails = getCelebrityStats("Tom Hiddleston")[0]
-            celebrityTwoInfoList.append(celebrityTwoDetails.get('name'))           
-            celebrityTwoInfoList.append(celebrityTwoDetails.get('age'))           
-            celebrityTwoInfoList.append(celebrityTwoDetails.get('height'))           
-            celebrityTwoInfoList.append(celebrityTwoDetails.get('net_worth'))
-            allCelebrityList.append(celebrityTwoInfoList) 
+        # if secondCelebrityTicked == 'on':
+        #     celebrityTwoDetails = getCelebri tyStats("Tom Hiddleston")[0]
+        #     celebrityTwoInfoList.append(celebrityTwoDetails.get('name'))           
+        #     celebrityTwoInfoList.append(celebrityTwoDetails.get('age'))           
+        #     celebrityTwoInfoList.append(celebrityTwoDetails.get('height'))           
+        #     celebrityTwoInfoList.append(celebrityTwoDetails.get('net_worth'))
+        #     allCelebrityList.append(celebrityTwoInfoList) 
 
-        if thirdCelebrityTicked == 'on':
-            celebrityThreeDetails = getCelebrityStats("Scarlett Johansson")[0]
-            celebrityThreeInfoList.append(celebrityThreeDetails.get('name'))           
-            celebrityThreeInfoList.append(celebrityThreeDetails.get('age'))           
-            celebrityThreeInfoList.append(celebrityThreeDetails.get('height'))           
-            celebrityThreeInfoList.append(celebrityThreeDetails.get('net_worth'))
-            allCelebrityList.append(celebrityThreeInfoList)
+        # if thirdCelebrityTicked == 'on':
+        #     celebrityThreeDetails = getCelebrityStats("Scarlett Johansson")[0]
+        #     celebrityThreeInfoList.append(celebrityThreeDetails.get('name'))           
+        #     celebrityThreeInfoList.append(celebrityThreeDetails.get('age'))           
+        #     celebrityThreeInfoList.append(celebrityThreeDetails.get('height'))           
+        #     celebrityThreeInfoList.append(celebrityThreeDetails.get('net_worth'))
+        #     allCelebrityList.append(celebrityThreeInfoList)
 
-        if fourthCelebrityTicked == 'on':
-            celebrityFourDetails = getCelebrityStats("Elizabeth Olsen")[0]
-            celebrityFourInfoList.append(celebrityFourDetails.get('name'))           
-            celebrityFourInfoList.append(celebrityFourDetails.get('age'))           
-            celebrityFourInfoList.append(celebrityFourDetails.get('height'))           
-            celebrityFourInfoList.append(celebrityFourDetails.get('net_worth'))
-            allCelebrityList.append(celebrityFourInfoList)
+        # if fourthCelebrityTicked == 'on':
+        #     celebrityFourDetails = getCelebrityStats("Elizabeth Olsen")[0]
+        #     celebrityFourInfoList.append(celebrityFourDetails.get('name'))           
+        #     celebrityFourInfoList.append(celebrityFourDetails.get('age'))           
+        #     celebrityFourInfoList.append(celebrityFourDetails.get('height'))           
+        #     celebrityFourInfoList.append(celebrityFourDetails.get('net_worth'))
+        #     allCelebrityList.append(celebrityFourInfoList)
 
-        if fifthCelebrityTicked == 'on':
-            celebrityFiveDetails = getCelebrityStats("Chris Hemsworth")[0]
-            celebrityFiveInfoList.append(celebrityFiveDetails.get('name'))           
-            celebrityFiveInfoList.append(celebrityFiveDetails.get('age'))           
-            celebrityFiveInfoList.append(celebrityFiveDetails.get('height'))           
-            celebrityFiveInfoList.append(celebrityFiveDetails.get('net_worth'))
-            allCelebrityList.append(celebrityFiveInfoList)
+        # if fifthCelebrityTicked == 'on':
+        #     celebrityFiveDetails = getCelebrityStats("Chris Hemsworth")[0]
+        #     celebrityFiveInfoList.append(celebrityFiveDetails.get('name'))           
+        #     celebrityFiveInfoList.append(celebrityFiveDetails.get('age'))           
+        #     celebrityFiveInfoList.append(celebrityFiveDetails.get('height'))           
+        #     celebrityFiveInfoList.append(celebrityFiveDetails.get('net_worth'))
+        #     allCelebrityList.append(celebrityFiveInfoList)
 
-        sortedList = sorted(allCelebrityList, key=itemgetter(3), reverse=True)
-
-        context['inputs'] = f"{sortedList}"  
-
+        allCelebrityList = [['Scarlett Johansson', 37, 1.6, 165000000.0], ['Chris Hemsworth', 39, 1.9, 130000000.0], ['Tom Hiddleston', 41, 1.87, 25000000.0]]
+        #allCelebrityList = [['Scarlett Johansson', 37, 1.6, 165000000.0]]
+        if len(allCelebrityList) <= 1:
+            context['message'] = "Please select two or more celebrities."
+        else:
+            sortedList = sorted(allCelebrityList, key=itemgetter(3), reverse=True)
+            context['inputs'] = sortedList 
 
     return render(request, 'celebrity-ranking.html', context)
 

@@ -7,3 +7,4 @@ class InputCelebrityNames(forms.Form):
     third_celebrity = forms.BooleanField(label="Scarlett Johansson", required=False)
     fourth_celebrity = forms.BooleanField(label="Elizabeth Olsen", required=False)
     fifth_celebrity = forms.BooleanField(label="Chris Hemsworth", required=False)
+

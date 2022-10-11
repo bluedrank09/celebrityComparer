@@ -13,26 +13,76 @@
 </head>
 <body>
     {% block content %}
+        <div class = 'container text-center border-danger mt-5 text-danger'>
+            {{ message }}  
+        </div>
         <div class = 'container text-center'>
             <h1>Celebrity Ranking</h1>
             <h3>
                 <small class="text-muted">Website that compares celebrity statistics</small>
             </h3>
-        </div>
-
+        </div>    
         <div class = 'container text-center'>
             <form method = "GET">
                 {% csrf_token %}
-                {{ form.as_div }}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Celebrity</th>
+                            <th>Select</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ form.first_celebrity.label }}</td>
+                            <td>{{ form.first_celebrity }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.second_celebrity.label }}</td>
+                            <td>{{ form.second_celebrity }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.third_celebrity.label }}</td>
+                            <td>{{ form.third_celebrity }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.fourth_celebrity.label }}</td>
+                            <td>{{ form.fourth_celebrity }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.fifth_celebrity.label }}</td>
+                            <td>{{ form.fifth_celebrity }}</td>
+                        </tr>
+                    </tbody>
+                </table>
                 <input type = "Submit" value = "Submit">
             </form>
         </div>
 
-        <div class = 'container text-center'>
-            {% for celeb in inputs %}
-                <td>{{ celeb }}</td>
-            {% endfor %}
+        <br>
 
+        <div class = 'container text-center'>
+            <table class="table table-primary">
+                <thead>
+                    <tr class="table-primary">
+                        <th> Celebrity Name</th>
+                        <th> Celebrity Age</th>
+                        <th> Celebrity Height</th>
+                        <th> Celebrity Net Worth</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for celeb in inputs %}
+                        <tr class="table-primary">
+                            {% for detail in celeb %}
+                            <td class="table-primary">
+                                {{ detail }}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>    
+            </table>
         </div>
 
     {% endblock %}
